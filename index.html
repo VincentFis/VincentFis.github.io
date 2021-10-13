@@ -8,10 +8,8 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="stylesheet" href="css/leaflet-search.css">
         <link rel="stylesheet" href="css/filter.css">
 <link rel="stylesheet" href="css/nouislider.min.css">
-        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <style>
         html, body, #map {
             width: 100%;
@@ -27,6 +25,7 @@
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
+        <script src="js/leaflet-svg-shape-markers.min.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -34,13 +33,11 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
-        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
-        <script src="js/leaflet-search.js"></script>
         <script src="js/tailDT.js"></script>
 <script src="js/nouislider.min.js"></script>
 <script src="js/wNumb.js"></script>
-        <script src="data/CoucheKarst_Jura_1.js"></script>
-        <script src="data/Departements_BFC_L93_2.js"></script>
+        <script src="data/Departements_L93_1.js"></script>
+        <script src="data/MassifJura_L93_2.js"></script>
         <script src="data/CoursdEau_NA_L93_3.js"></script>
         <script src="data/RangChroniques_VCN10_StationsMJ_L93_4.js"></script>
         <script>
@@ -61,17 +58,13 @@
             highlightLayer.openPopup();
         }
         var map = L.map('map', {
-            zoomControl:true, maxZoom:28, minZoom:1
-        })
+            zoomControl:true, maxZoom:1, minZoom:8
+        }).fitBounds([[45.55324567253855,3.7669852243149133],[47.769084203514986,8.579203883798588]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
-            if (bounds_group.getLayers().length) {
-                map.fitBounds(bounds_group.getBounds());
-            }
-            map.setMaxBounds(map.getBounds());
         }
         map.createPane('pane_OSMStandard_0');
         map.getPane('pane_OSMStandard_0').style.zIndex = 400;
@@ -79,121 +72,14 @@
             pane: 'pane_OSMStandard_0',
             opacity: 1.0,
             attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
-            minZoom: 1,
-            maxZoom: 28,
+            minZoom: 8,
+            maxZoom: 1,
             minNativeZoom: 0,
             maxNativeZoom: 19
         });
         layer_OSMStandard_0;
         map.addLayer(layer_OSMStandard_0);
-        function pop_CoucheKarst_Jura_1(feature, layer) {
-            layer.on({
-                mouseout: function(e) {
-                    for (i in e.target._eventParents) {
-                        e.target._eventParents[i].resetStyle(e.target);
-                    }
-                    if (typeof layer.closePopup == 'function') {
-                        layer.closePopup();
-                    } else {
-                        layer.eachLayer(function(feature){
-                            feature.closePopup()
-                        });
-                    }
-                },
-                mouseover: highlightFeature,
-            });
-            var popupContent = '<table>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeZK'] !== null ? autolinker.link(feature.properties['CodeZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['LibelleZK'] !== null ? autolinker.link(feature.properties['LibelleZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['RefZK'] !== null ? autolinker.link(feature.properties['RefZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['MethodeZK'] !== null ? autolinker.link(feature.properties['MethodeZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['SituatioZK'] !== null ? autolinker.link(feature.properties['SituatioZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['TypeZK'] !== null ? autolinker.link(feature.properties['TypeZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_1'] !== null ? autolinker.link(feature.properties['CodeEH_1'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_2'] !== null ? autolinker.link(feature.properties['CodeEH_2'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_3'] !== null ? autolinker.link(feature.properties['CodeEH_3'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_4'] !== null ? autolinker.link(feature.properties['CodeEH_4'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_5'] !== null ? autolinker.link(feature.properties['CodeEH_5'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_6'] !== null ? autolinker.link(feature.properties['CodeEH_6'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_7'] !== null ? autolinker.link(feature.properties['CodeEH_7'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CodeEH_8'] !== null ? autolinker.link(feature.properties['CodeEH_8'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['OrigineZK'] !== null ? autolinker.link(feature.properties['OrigineZK'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Echelle'] !== null ? autolinker.link(feature.properties['Echelle'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Source'] !== null ? autolinker.link(feature.properties['Source'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Lien'] !== null ? autolinker.link(feature.properties['Lien'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Massif'] !== null ? autolinker.link(feature.properties['Massif'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                </table>';
-            layer.bindPopup(popupContent, {maxHeight: 400});
-        }
-
-        function style_CoucheKarst_Jura_1_0() {
-            return {
-                pane: 'pane_CoucheKarst_Jura_1',
-                opacity: 1,
-                color: 'rgba(71,63,16,0.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(171,101,18,0.7490196078431373)',
-                interactive: true,
-            }
-        }
-        map.createPane('pane_CoucheKarst_Jura_1');
-        map.getPane('pane_CoucheKarst_Jura_1').style.zIndex = 401;
-        map.getPane('pane_CoucheKarst_Jura_1').style['mix-blend-mode'] = 'normal';
-        var layer_CoucheKarst_Jura_1 = new L.geoJson(json_CoucheKarst_Jura_1, {
-            attribution: '',
-            interactive: true,
-            dataVar: 'json_CoucheKarst_Jura_1',
-            layerName: 'layer_CoucheKarst_Jura_1',
-            pane: 'pane_CoucheKarst_Jura_1',
-            onEachFeature: pop_CoucheKarst_Jura_1,
-            style: style_CoucheKarst_Jura_1_0,
-        });
-        bounds_group.addLayer(layer_CoucheKarst_Jura_1);
-        map.addLayer(layer_CoucheKarst_Jura_1);
-        function pop_Departements_BFC_L93_2(feature, layer) {
+        function pop_Departements_L93_1(feature, layer) {
             layer.on({
                 mouseout: function(e) {
                     for (i in e.target._eventParents) {
@@ -222,26 +108,58 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['CODE_CHF'] !== null ? autolinker.link(feature.properties['CODE_CHF'].toLocaleString()) : '') + '</td>\
                     </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
+
+        function style_Departements_L93_1_0() {
+            return {
+                pane: 'pane_Departements_L93_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0, 
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(232,113,141,0.0)',
+                interactive: false,
+            }
+        }
+        map.createPane('pane_Departements_L93_1');
+        map.getPane('pane_Departements_L93_1').style.zIndex = 401;
+        map.getPane('pane_Departements_L93_1').style['mix-blend-mode'] = 'normal';
+        var layer_Departements_L93_1 = new L.geoJson(json_Departements_L93_1, {
+            attribution: '',
+            interactive: false,
+            dataVar: 'json_Departements_L93_1',
+            layerName: 'layer_Departements_L93_1',
+            pane: 'pane_Departements_L93_1',
+            onEachFeature: pop_Departements_L93_1,
+            style: style_Departements_L93_1_0,
+        });
+        bounds_group.addLayer(layer_Departements_L93_1);
+        map.addLayer(layer_Departements_L93_1);
+        function pop_MassifJura_L93_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    for (i in e.target._eventParents) {
+                        e.target._eventParents[i].resetStyle(e.target);
+                    }
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
+            var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['NOM_CHF'] !== null ? autolinker.link(feature.properties['NOM_CHF'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['X_CHF_LIEU'] !== null ? autolinker.link(feature.properties['X_CHF_LIEU'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Y_CHF_LIEU'] !== null ? autolinker.link(feature.properties['Y_CHF_LIEU'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['X_CENTROID'] !== null ? autolinker.link(feature.properties['X_CENTROID'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['Y_CENTROID'] !== null ? autolinker.link(feature.properties['Y_CENTROID'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['CODE_REG'] !== null ? autolinker.link(feature.properties['CODE_REG'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <td colspan="2">' + (feature.properties['NOM_REG'] !== null ? autolinker.link(feature.properties['NOM_REG'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2">' + (feature.properties['LibelleZK'] !== null ? autolinker.link(feature.properties['LibelleZK'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <td colspan="2">' + (feature.properties['Echelle'] !== null ? autolinker.link(feature.properties['Echelle'].toLocaleString()) : '') + '</td>\
@@ -252,39 +170,42 @@
                     <tr>\
                         <td colspan="2">' + (feature.properties['Lien'] !== null ? autolinker.link(feature.properties['Lien'].toLocaleString()) : '') + '</td>\
                     </tr>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['Massif'] !== null ? autolinker.link(feature.properties['Massif'].toLocaleString()) : '') + '</td>\
+                    </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
         }
 
-        function style_Departements_BFC_L93_2_0() {
+        function style_MassifJura_L93_2_0() {
             return {
-                pane: 'pane_Departements_BFC_L93_2',
+                pane: 'pane_MassifJura_L93_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(35,35,35,0.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(133,182,111,0.0)',
-                interactive: true,
+                fillColor: 'rgba(171,101,18,0.5019607843137255)',
+                interactive: false,
             }
         }
-        map.createPane('pane_Departements_BFC_L93_2');
-        map.getPane('pane_Departements_BFC_L93_2').style.zIndex = 402;
-        map.getPane('pane_Departements_BFC_L93_2').style['mix-blend-mode'] = 'normal';
-        var layer_Departements_BFC_L93_2 = new L.geoJson(json_Departements_BFC_L93_2, {
+        map.createPane('pane_MassifJura_L93_2');
+        map.getPane('pane_MassifJura_L93_2').style.zIndex = 402;
+        map.getPane('pane_MassifJura_L93_2').style['mix-blend-mode'] = 'normal';
+        var layer_MassifJura_L93_2 = new L.geoJson(json_MassifJura_L93_2, {
             attribution: '',
-            interactive: true,
-            dataVar: 'json_Departements_BFC_L93_2',
-            layerName: 'layer_Departements_BFC_L93_2',
-            pane: 'pane_Departements_BFC_L93_2',
-            onEachFeature: pop_Departements_BFC_L93_2,
-            style: style_Departements_BFC_L93_2_0,
+            interactive: false,
+            dataVar: 'json_MassifJura_L93_2',
+            layerName: 'layer_MassifJura_L93_2',
+            pane: 'pane_MassifJura_L93_2',
+            onEachFeature: pop_MassifJura_L93_2,
+            style: style_MassifJura_L93_2_0,
         });
-        bounds_group.addLayer(layer_Departements_BFC_L93_2);
-        map.addLayer(layer_Departements_BFC_L93_2);
+        bounds_group.addLayer(layer_MassifJura_L93_2);
+        map.addLayer(layer_MassifJura_L93_2);
         function pop_CoursdEau_NA_L93_3(feature, layer) {
             layer.on({
                 mouseout: function(e) {
@@ -338,7 +259,7 @@
                 lineJoin: 'bevel',
                 weight: 2.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
             }
             if (feature.properties['CLASSE'] >= 2.000000 && feature.properties['CLASSE'] <= 3.000000 ) {
@@ -351,7 +272,7 @@
                 lineJoin: 'bevel',
                 weight: 1.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
             }
             if (feature.properties['CLASSE'] >= 3.000000 && feature.properties['CLASSE'] <= 7.000000 ) {
@@ -364,7 +285,7 @@
                 lineJoin: 'bevel',
                 weight: 1.0,
                 fillOpacity: 0,
-                interactive: true,
+                interactive: false,
             }
             }
         }
@@ -373,7 +294,7 @@
         map.getPane('pane_CoursdEau_NA_L93_3').style['mix-blend-mode'] = 'normal';
         var layer_CoursdEau_NA_L93_3 = new L.geoJson(json_CoursdEau_NA_L93_3, {
             attribution: '',
-            interactive: true,
+            interactive: false,
             dataVar: 'json_CoursdEau_NA_L93_3',
             layerName: 'layer_CoursdEau_NA_L93_3',
             pane: 'pane_CoursdEau_NA_L93_3',
@@ -400,22 +321,22 @@
             });
             var popupContent = '<table>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Code Station'] !== null ? autolinker.link(feature.properties['Code Station'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Code Station</strong><br />' + (feature.properties['Code Station'] !== null ? autolinker.link(feature.properties['Code Station'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Nom Station'] !== null ? autolinker.link(feature.properties['Nom Station'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Nom Station</strong><br />' + (feature.properties['Nom Station'] !== null ? autolinker.link(feature.properties['Nom Station'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Rang 1'] !== null ? autolinker.link(feature.properties['Rang 1'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Rang 1</strong><br />' + (feature.properties['Rang 1'] !== null ? autolinker.link(feature.properties['Rang 1'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Rang 2'] !== null ? autolinker.link(feature.properties['Rang 2'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Rang 2</strong><br />' + (feature.properties['Rang 2'] !== null ? autolinker.link(feature.properties['Rang 2'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Rang 3'] !== null ? autolinker.link(feature.properties['Rang 3'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Rang 3</strong><br />' + (feature.properties['Rang 3'] !== null ? autolinker.link(feature.properties['Rang 3'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <td colspan="2">' + (feature.properties['Chronique'] !== null ? autolinker.link(feature.properties['Chronique'].toLocaleString()) : '') + '</td>\
+                        <td colspan="2"><strong>Chronique</strong><br />' + (feature.properties['Chronique'] !== null ? autolinker.link(feature.properties['Chronique'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             layer.bindPopup(popupContent, {maxHeight: 400});
@@ -424,16 +345,16 @@
         function style_RangChroniques_VCN10_StationsMJ_L93_4_0() {
             return {
                 pane: 'pane_RangChroniques_VCN10_StationsMJ_L93_4',
-                radius: 4.0,
+                radius: 10.0,
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(255,255,255,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1,
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(243,166,178,1.0)',
+                fillColor: 'rgba(227,26,28,1.0)',
                 interactive: true,
             }
         }
@@ -452,31 +373,14 @@
                     feature: feature,
                     variables: {}
                 };
-                return L.circleMarker(latlng, style_RangChroniques_VCN10_StationsMJ_L93_4_0(feature));
+                return L.shapeMarker(latlng, style_RangChroniques_VCN10_StationsMJ_L93_4_0(feature));
             },
         });
         bounds_group.addLayer(layer_RangChroniques_VCN10_StationsMJ_L93_4);
         map.addLayer(layer_RangChroniques_VCN10_StationsMJ_L93_4);
-        var osmGeocoder = new L.Control.Geocoder({
-            collapsed: true,
-            position: 'topleft',
-            text: 'Search',
-            title: 'Testing'
-        }).addTo(map);
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .className += ' fa fa-search';
-        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
-        .title += 'Search for a place';
         var baseMaps = {};
-        L.control.layers(baseMaps,{'<img src="legend/RangChroniques_VCN10_StationsMJ_L93_4.png" /> RangChroniques_VCN10_StationsMJ_L93': layer_RangChroniques_VCN10_StationsMJ_L93_4,'CoursdEau_NA_L93<br /><table><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_10200.png" /></td><td> 1.0 - 2.0 </td></tr><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_20301.png" /></td><td> 2.0 - 3.0 </td></tr><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_30702.png" /></td><td> 3.0 - 7.0 </td></tr></table>': layer_CoursdEau_NA_L93_3,'<img src="legend/Departements_BFC_L93_2.png" /> Departements_BFC_L93': layer_Departements_BFC_L93_2,'<img src="legend/CoucheKarst_Jura_1.png" /> CoucheKarst_Jura': layer_CoucheKarst_Jura_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
+        L.control.layers(baseMaps,{'<img src="legend/RangChroniques_VCN10_StationsMJ_L93_4.png" /> RangChroniques_VCN10_StationsMJ_L93': layer_RangChroniques_VCN10_StationsMJ_L93_4,'CoursdEau_NA_L93<br /><table><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_10200.png" /></td><td> 1.0 - 2.0 </td></tr><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_20301.png" /></td><td> 2.0 - 3.0 </td></tr><tr><td style="text-align: center;"><img src="legend/CoursdEau_NA_L93_3_30702.png" /></td><td> 3.0 - 7.0 </td></tr></table>': layer_CoursdEau_NA_L93_3,'<img src="legend/MassifJura_L93_2.png" /> MassifJura_L93': layer_MassifJura_L93_2,'<img src="legend/Departements_L93_1.png" /> Departements_L93': layer_Departements_L93_1,"OSM Standard": layer_OSMStandard_0,}).addTo(map);
         setBounds();
-        map.addControl(new L.Control.Search({
-            layer: layer_RangChroniques_VCN10_StationsMJ_L93_4,
-            initial: false,
-            hideMarkerOnCollapse: true,
-            propertyName: 'Rang 1'}));
-        document.getElementsByClassName('search-button')[0].className +=
-         ' fa fa-binoculars';
         var mapDiv = document.getElementById('map');
         var row = document.createElement('div');
         row.className="row";
@@ -496,7 +400,7 @@
         document.getElementById("all").appendChild(col1);
         document.getElementById("all").appendChild(col2);
         col1.appendChild(mapDiv)
-        var Filters = {"Nom Station": "str"};
+        var Filters = {"Rang 1": "int","Nom Station": "str"};
         function filterFunc() {
           map.eachLayer(function(lyr){
           if ("options" in lyr && "dataVar" in lyr["options"]){
@@ -586,6 +490,46 @@
           }
           })
         }
+            document.getElementById("menu").appendChild(
+                document.createElement("div"));
+            var div_Rang1 = document.createElement("div");
+            div_Rang1.id = "div_Rang1";
+            div_Rang1.className = "slider";
+            document.getElementById("menu").appendChild(div_Rang1);
+            var lab_Rang1 = document.createElement('div');
+            lab_Rang1.innerHTML  = 'Rang 1: <span id="val_Rang1"></span>';
+            lab_Rang1.className = 'filterlabel';
+            document.getElementById("menu").appendChild(lab_Rang1);
+            var reset_Rang1 = document.createElement('div');
+            reset_Rang1.innerHTML = 'clear filter';
+            reset_Rang1.className = 'filterlabel';
+            lab_Rang1.className = 'filterlabel';
+            reset_Rang1.onclick = function() {
+                sel_Rang1.noUiSlider.reset();
+            };
+            document.getElementById("menu").appendChild(reset_Rang1);
+            var sel_Rang1 = document.getElementById('div_Rang1');
+            noUiSlider.create(sel_Rang1, {
+                connect: true,
+                start: [0, 2020],
+                step: 1,
+                format: wNumb({
+                    decimals: 0,
+                    }),
+                range: {
+                min: 0,
+                max: 2020
+                }
+            });
+            sel_Rang1.noUiSlider.on('update', function (values) {
+            filterVals =[];
+            for (value in values){
+            filterVals.push(parseInt(value))
+            }
+            val_Rang1 = document.getElementById('val_Rang1');
+            val_Rang1.innerHTML = values.join(' - ');
+                filterFunc()
+            });
             document.getElementById("menu").appendChild(
                 document.createElement("div"));
             var div_NomStation = document.createElement('div');
